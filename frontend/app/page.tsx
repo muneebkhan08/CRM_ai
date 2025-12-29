@@ -47,41 +47,22 @@ function StatCard({ title, value, change, icon, color }: StatCardProps) {
 export default function Dashboard() {
     const [analytics, setAnalytics] = useState<AnalyticsOverview | null>(null);
     const [loading, setLoading] = useState(true);
-    const [error, setError] = useState<string | null>(null);
 
     useEffect(() => {
         loadAnalytics();
     }, []);
 
     const loadAnalytics = async () => {
-        try {
-            const response = await analyticsApi.getOverview();
-            setAnalytics(response.data);
-        } catch (err) {
-            setError('Failed to load analytics. Make sure the backend is running.');
-            console.error(err);
-        } finally {
-            setLoading(false);
-        }
+        setLoading(true);
+        const response = await analyticsApi.getOverview();
+        setAnalytics(response.data);
+        setLoading(false);
     };
 
     if (loading) {
         return (
             <div className="flex items-center justify-center min-h-[60vh]">
                 <div className="spinner" />
-            </div>
-        );
-    }
-
-    if (error) {
-        return (
-            <div className="flex flex-col items-center justify-center min-h-[60vh] text-center">
-                <AlertCircle size={48} className="text-red-400 mb-4" />
-                <h2 className="text-xl font-semibold mb-2 text-gray-900 dark:text-white">Connection Error</h2>
-                <p className="text-gray-500 dark:text-gray-400 mb-4">{error}</p>
-                <button onClick={loadAnalytics} className="glow-button">
-                    Retry
-                </button>
             </div>
         );
     }
