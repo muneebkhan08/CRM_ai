@@ -6,8 +6,6 @@ const nextConfig = {
     images: {
         unoptimized: true,
     },
-    // Disable server-side features for static deployment
-    distDir: 'out',
 }
 
 module.exports = nextConfig
