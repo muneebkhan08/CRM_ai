@@ -32,13 +32,15 @@ export default function Sidebar() {
 
     return (
         <>
-            {/* Mobile menu button */}
-            <button
-                className="fixed top-4 left-4 z-50 p-2 rounded-lg bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 lg:hidden shadow-sm"
-                onClick={() => setIsMobileOpen(!isMobileOpen)}
-            >
-                {isMobileOpen ? <X size={24} className="text-gray-600 dark:text-gray-300" /> : <Menu size={24} className="text-gray-600 dark:text-gray-300" />}
-            </button>
+            {/* Mobile menu button - when closed, show on left */}
+            {!isMobileOpen && (
+                <button
+                    className="fixed top-4 left-4 z-50 p-2 rounded-lg bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 lg:hidden shadow-sm"
+                    onClick={() => setIsMobileOpen(true)}
+                >
+                    <Menu size={24} className="text-gray-600 dark:text-gray-300" />
+                </button>
+            )}
 
             {/* Overlay for mobile */}
             {isMobileOpen && (
@@ -54,9 +56,9 @@ export default function Sidebar() {
                     }`}
             >
                 <div className="flex flex-col h-full">
-                    {/* Logo */}
-                    <div className="p-6 border-b border-gray-100 dark:border-gray-700">
-                        <Link href="/" className="flex items-center gap-3">
+                    {/* Header with Logo and Close Button */}
+                    <div className="p-6 border-b border-gray-100 dark:border-gray-700 flex items-center justify-between">
+                        <Link href="/" className="flex items-center gap-3" onClick={() => setIsMobileOpen(false)}>
                             <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-green-500 to-emerald-600 flex items-center justify-center shadow-lg shadow-green-500/20">
                                 <Bot className="w-6 h-6 text-white" />
                             </div>
@@ -64,6 +66,13 @@ export default function Sidebar() {
                                 <h1 className="text-xl font-bold text-gray-900 dark:text-white tracking-tight">GrowthCRM</h1>
                             </div>
                         </Link>
+                        {/* Close button on right side - only visible on mobile when open */}
+                        <button
+                            className="p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 lg:hidden transition-colors"
+                            onClick={() => setIsMobileOpen(false)}
+                        >
+                            <X size={24} className="text-gray-600 dark:text-gray-300" />
+                        </button>
                     </div>
 
                     {/* Navigation */}
@@ -79,7 +88,7 @@ export default function Sidebar() {
                                             onClick={() => setIsMobileOpen(false)}
                                             className={`flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-200 ${isActive
                                                 ? 'bg-green-50 dark:bg-green-900/30 text-green-700 dark:text-green-400 font-semibold'
-                                                : 'text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white hover:bg-gray-50 dark:hover:bg-gray-700'
+                                                : 'text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white hover:bg-gray-50 dark:hover:bg-gray-700'
                                                 }`}
                                         >
                                             <Icon size={20} className={isActive ? 'text-green-600 dark:text-green-400' : 'text-gray-400 dark:text-gray-500'} />
@@ -95,7 +104,8 @@ export default function Sidebar() {
                     <div className="p-4 border-t border-gray-100 dark:border-gray-700 space-y-1">
                         <Link
                             href="/settings"
-                            className="flex items-center gap-3 px-4 py-3 rounded-xl text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white hover:bg-gray-50 dark:hover:bg-gray-700 transition-all duration-200"
+                            onClick={() => setIsMobileOpen(false)}
+                            className="flex items-center gap-3 px-4 py-3 rounded-xl text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white hover:bg-gray-50 dark:hover:bg-gray-700 transition-all duration-200"
                         >
                             <Settings size={20} />
                             <span className="text-sm font-medium">Settings</span>
